@@ -6,5 +6,7 @@
 </template>
 
 <style scoped>
-
+.dv {
+  color: aqua;
+}
 </style>

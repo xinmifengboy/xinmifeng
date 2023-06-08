@@ -1,10 +1,19 @@
+<!--
+ * @Author: shuaiqiboy 16139991@qq.com
+ * @Date: 2023-06-08 10:04:10
+ * @LastEditors: shuaiqiboy 16139991@qq.com
+ * @LastEditTime: 2023-06-08 10:34:48
+ * @FilePath: /xinmifeng/src/pages/index.vue
+ * @Description: 如有疑问请联系开发者 
+ * 16139991
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+-->
 <template>
   <div>
   </div>
 </template>
 
 <script setup>
-import WebGL from '@/assets/js/WebGL.js'
 document.body.innerHTML = '' // 清空body内容
 const scene = new T3.Scene() //  创建场景
 /**
@@ -40,14 +49,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 // 检测当前用户所使用的环境是否支持WebGL，
-if (WebGL.isWebGLAvailable()) {
-    // Initiate function or other initializations here
-    animate();
-} else {
-  // 如果不支持，将会向用户提示一条信息。
-    const warning = WebGL.getWebGLErrorMessage();
-    document.getElementById('container').appendChild(warning);
-}
+Utils.WebGLCompatibilityCheck(animate())
 </script>
 
 <style lang="scss" scoped></style>
