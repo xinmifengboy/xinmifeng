@@ -23,12 +23,10 @@ const line = new T3.Line(geometry, material);
 const camera = new T3.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
 camera.position.set(0, 0, 100);
 camera.lookAt(0, 0, 0);
-
-camera.position.z = 5;
-
+// camera.position.z = 1;
 const scene = new T3.Scene();
 scene.add(line);
-// renderer.render(scene, camera);
+renderer.render(scene, camera);
 
 function animate() {
   requestAnimationFrame(animate);
