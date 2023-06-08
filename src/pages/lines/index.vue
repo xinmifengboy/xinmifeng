@@ -24,9 +24,19 @@ const camera = new T3.PerspectiveCamera(45, window.innerWidth / window.innerHeig
 camera.position.set(0, 0, 100);
 camera.lookAt(0, 0, 0);
 
+camera.position.z = 5;
+
 const scene = new T3.Scene();
 scene.add(line);
-renderer.render(scene, camera);
+// renderer.render(scene, camera);
+
+function animate() {
+  requestAnimationFrame(animate);
+  line.rotation.x += 0.01;
+  line.rotation.y += 0.01;
+  renderer.render(scene, camera);
+}
+animate();
 </script>
 
 <style></style>
