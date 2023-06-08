@@ -5,8 +5,8 @@
 
 <script setup>
 import WebGL from '@/assets/js/WebGL.js'
+document.body.innerHTML = '' // 清空body内容
 const scene = new T3.Scene() //  创建场景
-
 /**
  * @param 视野角度 FOV 视野角度就是无论在什么时候，你所能在显示器上看到的场景的范围，它的单位是角度(与弧度区分开)。
  * @param 长宽比（aspect ratio） 一个物体的宽除以它的高的值
@@ -34,10 +34,10 @@ camera.position.z = 3;
 
 // 这段代码每帧都会执行（正常情况下是60次/秒）
 function animate() {
-	requestAnimationFrame( animate );
+  requestAnimationFrame(animate);
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
-	renderer.render( scene, camera );
+  renderer.render(scene, camera);
 }
 // 检测当前用户所使用的环境是否支持WebGL，
 if (WebGL.isWebGLAvailable()) {
@@ -50,6 +50,4 @@ if (WebGL.isWebGLAvailable()) {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
