@@ -1,3 +1,12 @@
+<!--
+ * @Author: shuaiqiboy 16139991@qq.com
+ * @Date: 2023-06-25 10:39:16
+ * @LastEditors: shuaiqiboy 16139991@qq.com
+ * @LastEditTime: 2023-06-25 10:39:43
+ * @FilePath: /xinmifeng/src/pages/lines/index.vue
+ * @Description: 如有疑问请联系开发者 
+ * 16139991
+-->
 <template>
   <div></div>
 </template>
@@ -28,7 +37,7 @@ camera.position.z = 5;
 
 const scene = new THREE.Scene();
 scene.add(line);
-// renderer.render(scene, camera);
+renderer.render(scene, camera);
 
 function animate() {
   requestAnimationFrame(animate);
