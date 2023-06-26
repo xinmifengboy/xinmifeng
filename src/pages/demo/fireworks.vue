@@ -1,49 +1,57 @@
-<!--
- * @Author: shuaiqiboy 16139991@qq.com
- * @Date: 2023-06-08 14:13:17
- * @LastEditors: shuaiqiboy 16139991@qq.com
- * @LastEditTime: 2023-06-08 15:13:52
- * @FilePath: /xinmifeng/src/pages/demo/fireworks.vue
- * @Description: 如有疑问请联系开发者 
- * 16139991
--->
 <template>
   <div>
-
+		<!--
+ *  ┌───┐   ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
+ *  │Esc│   │ F1│ F2│ F3│ F4│ │ F5│ F6│ F7│ F8│ │ F9│F10│F11│F12│ │P/S│S L│P/B│  ┌┐    ┌┐    ┌┐
+ *  └───┘   └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┘  └┘    └┘    └┘
+ *  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┐ ┌───┬───┬───┐ ┌───┬───┬───┬───┐
+ *  │~ `│! 1│@ 2│# 3│$ 4│% 5│^ 6│& 7│* 8│( 9│) 0│_ -│+ =│ BacSp │ │Ins│Hom│PUp│ │N L│ / │ * │ - │
+ *  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┤ ├───┼───┼───┤ ├───┼───┼───┼───┤
+ *  │ Tab │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │{ [│} ]│ | \ │ │Del│End│PDn│ │ 7 │ 8 │ 9 │   │
+ *  ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┤ └───┴───┴───┘ ├───┼───┼───┤ + │
+ *  │ Caps │ A │ S │ D │ F │ G │ H │ J │ K │ L │: ;│" '│ Enter  │               │ 4 │ 5 │ 6 │   │
+ *  ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────────┤     ┌───┐     ├───┼───┼───┼───┤
+ *  │ Shift  │ Z │ X │ C │ V │ B │ N │ M │< ,│> .│? /│  Shift   │     │ ↑ │     │ 1 │ 2 │ 3 │   │
+ *  ├─────┬──┴─┬─┴──┬┴───┴───┴───┴───┴───┴──┬┴───┼───┴┬────┬────┤ ┌───┼───┼───┐ ├───┴───┼───┤ E││
+ *  │ Ctrl│    │Alt │         Space         │ Alt│    │    │Ctrl│ │ ← │ ↓ │ → │ │   0   │ . │←─┘│
+ *  └─────┴────┴────┴───────────────────────┴────┴────┴────┴────┘ └───┴───┴───┘ └───────┴───┴───┘
+ -->
   </div>
 </template>
 
-<script setup>
-const scene = new THREE.Scene() //  创建场景
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ) //  创建相机
-const renderer = new THREE.WebGLRenderer() //  实例化渲染器
+<script  lang="ts" setup>
+import { getCurrentInstance } from "vue";
+const { proxy }: any = getCurrentInstance();
+
+const { scene,camera,renderer  }  = proxy.$utils
+
+document.body.innerHTML = '' // 清空body内容
 // 设置渲染器尺寸， 支持三个参数： 宽度， 高度，是否降低分辨率渲染
 renderer.setSize( window.innerWidth, window.innerHeight )
 // 将渲染器挂载到文本文档的body元素下
 document.body.appendChild( renderer.domElement )
 
+
+
+// 繁星
 const vertices = [];
-
 for ( let i = 0; i < 10000; i ++ ) {
-
-	const x = THREE.MathUtils.randFloatSpread( 2000 );
-	const y = THREE.MathUtils.randFloatSpread( 2000 );
-	const z = THREE.MathUtils.randFloatSpread( 2000 );
-
+	const x = proxy.$three.MathUtils.randFloatSpread( 2000 );
+	const y = proxy.$three.MathUtils.randFloatSpread( 2000 );
+	const z = proxy.$three.MathUtils.randFloatSpread( 2000 );
 	vertices.push( x, y, z );
-
 }
 
-const geometry = new THREE.BufferGeometry();
-geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+const geometry = new proxy.$three.BufferGeometry();
+geometry.setAttribute( 'position', new proxy.$three.Float32BufferAttribute( vertices, 3 ) );
 
 
-const material = new THREE.PointsMaterial( { color: 0x888888 } );
+const material = new proxy.$three.PointsMaterial( { color: 0x888888 } );
 
-const points = new THREE.Points( geometry, material );
+const points = new proxy.$three.Points( geometry, material );
 
 scene.add( points );
-renderer.render(scene, camera);
+renderer.render(scene, camera(100));
 </script>
 
 <style  scoped>
