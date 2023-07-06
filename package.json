@@ -1,6 +1,5 @@
 {
   "name": "xinmifeng",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -19,8 +18,6 @@
   "devDependencies": {
     "@types/three": "^0.152.1",
     "@vitejs/plugin-vue": "^4.1.0",
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7",
     "vite": "^4.3.9",
     "vite-plugin-pages": "^0.31.0"
   }
