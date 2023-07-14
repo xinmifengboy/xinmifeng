@@ -26,17 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.renderer = exports.camera = exports.scene = exports.WebGLCompatibilityCheck = void 0;
-/*
- * @Author: shuaiqiboy 16139991@qq.com
- * @Date: 2023-06-08 10:23:56
- * @LastEditors: shuaiqiboy 16139991@qq.com
- * @LastEditTime: 2023-06-25 14:44:39
- * @FilePath: /xinmifeng/src/assets/js/utils.ts
- * @Description: 如有疑问请联系开发者
- * 16139991
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
+exports.three = exports.renderer = exports.camera = exports.scene = exports.WebGLCompatibilityCheck = void 0;
 const WebGL_js_1 = __importDefault(require("./WebGL.js"));
 const three = __importStar(require("three"));
 /**
@@ -64,11 +54,13 @@ exports.scene = new three.Scene(); //  创建场景
  * @param 近截面（near）当物体某些部分比摄像机的远截面远或者比近截面近的时候，该这些部分将不会被渲染到场景中
  * @param 远截面（far）
  */
-const camera = (FOV, ar, near, far) => {
-    return new three.PerspectiveCamera(FOV = 75, ar = window.innerWidth / window.innerHeight, near = 0.1, far = 1000);
+const camera = (FOV = 75, ar = window.innerWidth / window.innerHeight, near = 0.1, far = 1000) => {
+    const red = new three.PerspectiveCamera(FOV, ar, near, far);
+    return red;
 };
 exports.camera = camera;
 /**
  * @name 渲染器
  */
 exports.renderer = new three.WebGLRenderer();
+exports.three = __importStar(require("three"));

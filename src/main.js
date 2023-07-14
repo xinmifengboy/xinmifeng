@@ -11,6 +11,7 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 import './assets/iconfont/iconfont.css'
+import './global/css.scss'
 import * as THREE from 'three'
 import * as Utils from '@/assets/js/utils.ts'
 
