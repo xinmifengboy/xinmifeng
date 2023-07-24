@@ -1,16 +1,7 @@
-/*
- * @Author: shuaiqiboy 16139991@qq.com
- * @Date: 2023-06-07 14:57:52
- * @LastEditors: shuaiqiboy 16139991@qq.com
- * @LastEditTime: 2023-06-07 15:28:29
- * @FilePath: /xinmifeng/vite.config.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import pages from 'vite-plugin-pages';
 import path from "path"
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -23,5 +14,36 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  server: {
+    proxy: {
+      // 字符串简写写法
+      // '/': 'http://localhost:3000',
+      // // 选项写法
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      // // 正则表达式写法
+      // '^/fallback/.*': {
+      //   target: 'http://jsonplaceholder.typicode.com',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/fallback/, '')
+      // },
+      // // 使用 proxy 实例
+      // '/api': {
+      //   target: 'http://jsonplaceholder.typicode.com',
+      //   changeOrigin: true,
+      //   configure: (proxy, options) => {
+      //     // proxy 是 'http-proxy' 的实例
+      //   }
+      // },
+      // // Proxying websockets or socket.io
+      // '/socket.io': {
+      //   target: 'ws://localhost:3000',
+      //   ws: true
+      // }
+    }
   }
 })

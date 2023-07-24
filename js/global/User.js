@@ -1,29 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Player = void 0;
 class Player {
-    constructor(playerInfo, equipment) {
-        this.name = playerInfo.name;
-        this.level = playerInfo.level;
-        this.job = playerInfo.job;
-        this.headImg = playerInfo.headImg;
-        this.maxHp = playerInfo.maxHp;
-        this.currentHp = playerInfo.currentHp;
-        this.maxMp = playerInfo.maxMp;
-        this.currentMp = playerInfo.currentMp;
-        this.maxExp = playerInfo.maxExp;
-        this.currentExp = playerInfo.currentExp;
-        this.strength = playerInfo.strength;
-        this.agility = playerInfo.agility;
-        this.intelligence = playerInfo.intelligence;
-        this.attack = playerInfo.attack;
-        this.armor = playerInfo.armor;
-        this.magicResistance = playerInfo.magicResistance;
-        this.dodge = playerInfo.dodge;
-        this.crit = playerInfo.crit;
-        this.critDamage = playerInfo.critDamage;
-        this.luck = playerInfo.luck;
-        this.goldBonus = playerInfo.goldBonus;
-        this.expBonus = playerInfo.expBonus;
+    constructor(name, headImg, maxHp = 0, currentHp = 0, maxMp = 0, currentMp = 0, maxExp = 0, currentExp = 0, strength = 10, agility = 10, intelligence = 10, attack = 0, armor = 0) {
+        this.name = name;
+        this.headImg = headImg;
+        this.maxHp = maxHp;
+        this.currentHp = currentHp;
+        this.maxMp = maxMp;
+        this.currentMp = currentMp;
+        this.maxExp = maxExp;
+        this.currentExp = currentExp;
+        this.strength = strength;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.attack = attack;
+        this.armor = armor;
     }
 }
-exports.default = Player;
+exports.Player = Player;
