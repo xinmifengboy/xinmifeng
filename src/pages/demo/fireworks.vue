@@ -1,59 +1,39 @@
 <template>
   <div>
-		<!--
- *  ┌───┐   ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
- *  │Esc│   │ F1│ F2│ F3│ F4│ │ F5│ F6│ F7│ F8│ │ F9│F10│F11│F12│ │P/S│S L│P/B│  ┌┐    ┌┐    ┌┐
- *  └───┘   └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┴───┘ └───┴───┴───┘  └┘    └┘    └┘
- *  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┐ ┌───┬───┬───┐ ┌───┬───┬───┬───┐
- *  │~ `│! 1│@ 2│# 3│$ 4│% 5│^ 6│& 7│* 8│( 9│) 0│_ -│+ =│ BacSp │ │Ins│Hom│PUp│ │N L│ / │ * │ - │
- *  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┤ ├───┼───┼───┤ ├───┼───┼───┼───┤
- *  │ Tab │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │{ [│} ]│ | \ │ │Del│End│PDn│ │ 7 │ 8 │ 9 │   │
- *  ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┤ └───┴───┴───┘ ├───┼───┼───┤ + │
- *  │ Caps │ A │ S │ D │ F │ G │ H │ J │ K │ L │: ;│" '│ Enter  │               │ 4 │ 5 │ 6 │   │
- *  ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────────┤     ┌───┐     ├───┼───┼───┼───┤
- *  │ Shift  │ Z │ X │ C │ V │ B │ N │ M │< ,│> .│? /│  Shift   │     │ ↑ │     │ 1 │ 2 │ 3 │   │
- *  ├─────┬──┴─┬─┴──┬┴───┴───┴───┴───┴───┴──┬┴───┼───┴┬────┬────┤ ┌───┼───┼───┐ ├───┴───┼───┤ E││
- *  │ Ctrl│    │Alt │         Space         │ Alt│    │    │Ctrl│ │ ← │ ↓ │ → │ │   0   │ . │←─┘│
- *  └─────┴────┴────┴───────────────────────┴────┴────┴────┴────┘ └───┴───┴───┘ └───────┴───┴───┘
- -->
   </div>
 </template>
 
-<script  lang="ts" setup>
+<script setup lang="ts">
 import { getCurrentInstance } from "vue";
 const { proxy }: any = getCurrentInstance();
 
-const { scene,camera,renderer  }  = proxy.$utils
-
 document.body.innerHTML = '' // 清空body内容
-// 设置渲染器尺寸， 支持三个参数： 宽度， 高度，是否降低分辨率渲染
-renderer.setSize( window.innerWidth, window.innerHeight )
-// 将渲染器挂载到文本文档的body元素下
-document.body.appendChild( renderer.domElement )
+const scene = new proxy.$three.Scene() //  创建场景
+const camera = new proxy.$three.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); //  创建相机
+const renderer = new proxy.$three.WebGLRenderer(); //  实例化渲染器
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
 
+// 创建立方体  参数: 长，宽 高
+const geometry = new proxy.$three.BoxGeometry( 1, 1, 1 );
+// 设置立方体材质的属性  参数： 颜色
+const material = new proxy.$three.MeshBasicMaterial( { color: 0x00ff00 } );
+// 创建网格 参数: 立方体对象， 材质属性
+const cube = new proxy.$three.Mesh( geometry, material );
+//  场景中创建立方体坐标会初始化在 (0,0)
+scene.add( cube );
+// 将相机的z轴移动5个网格
+camera.position.z = 3;
 
-
-// 繁星
-const vertices = [];
-for ( let i = 0; i < 10000; i ++ ) {
-	const x = proxy.$three.MathUtils.randFloatSpread( 2000 );
-	const y = proxy.$three.MathUtils.randFloatSpread( 2000 );
-	const z = proxy.$three.MathUtils.randFloatSpread( 2000 );
-	vertices.push( x, y, z );
+// 这段代码每帧都会执行（正常情况下是60次/秒）
+function animate() {
+  requestAnimationFrame(animate);
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+  renderer.render(scene, camera);
 }
-
-const geometry = new proxy.$three.BufferGeometry();
-geometry.setAttribute( 'position', new proxy.$three.Float32BufferAttribute( vertices, 3 ) );
-
-
-const material = new proxy.$three.PointsMaterial( { color: 0x888888 } );
-
-const points = new proxy.$three.Points( geometry, material );
-
-scene.add( points );
-renderer.render(scene, camera(100));
+// 检测当前用户所使用的环境是否支持WebGL，
+proxy.$utils.WebGLCompatibilityCheck(animate())
 </script>
 
-<style  scoped>
-
-</style>
+<style lang="scss" scoped></style>

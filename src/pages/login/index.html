@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Three.js太阳</title>
+    <style>
+      body { margin: 0; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+      // 创建场景
+      var scene = new THREE.Scene();
+
+      // 创建透视相机
+      var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+      // 创建渲染器
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // 创建太阳
+      var geometry = new THREE.SphereGeometry(20, 30, 30);
+      var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      var sun = new THREE.Mesh(geometry, material);
+      scene.add(sun);
+
+      // 创建光晕
+      var textureLoader = new THREE.TextureLoader();
+      var sprite = textureLoader.load('https://threejs.org/examples/textures/sprites/lensflare/lensflare0.png');
+      var sunHaloMaterial = new THREE.SpriteMaterial({ map: sprite, color: 0xffff00, blending: THREE.AdditiveBlending });
+      var sunHalo = new THREE.Sprite(sunHaloMaterial);
+      sunHalo.scale.set(70, 70, 1);
+      scene.add(sunHalo);
+
+      // 设置相机位置
+      camera.position.z = 50;
+
+      // 创建光源
+      var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      var pointLight = new THREE.PointLight(0xffffff, 1);
+      scene.add(pointLight);
+
+      // 渲染循环
+      function animate() {
+        requestAnimationFrame(animate);
+        sun.rotation.x += 0.01;
+        sun.rotation.y += 0.01;
+        sunHalo.rotation.x += 0.01;
+        sunHalo.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+</html>

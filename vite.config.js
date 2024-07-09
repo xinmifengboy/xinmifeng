@@ -10,6 +10,15 @@ export default defineConfig({
       exclude: ['**/components/*.vue']
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @import "@/global/css.scss";`,
+        // javascriptEnabled: true
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

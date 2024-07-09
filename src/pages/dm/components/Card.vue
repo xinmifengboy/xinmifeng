@@ -2,12 +2,12 @@
   <section class="card">
     <section class="dis">
       <img src="../../../assets/images/headImg.jpg" alt="" class="headImg" srcset="">
-      <section>
+      <section class="content">
         <p>山河无恙</p>
-        <p>
+        <!-- <p>
           <span>青铜五星</span>
           <span>魔法学徒</span>
-        </p>
+        </p> -->
         <ul class="wealth dis">
           <li v-for="item in wealth">
             <label>{{ item.name }}</label>
@@ -22,17 +22,17 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  userInfo: Object,
+  player: Object,
 })
 const wealth = [
   {
     name: '金币',
-    total: props.userInfo.coins,
+    total: props.player.coins,
     icon: '',
   },
   {
     name: '钻石',
-    total: props.userInfo.diamond,
+    total: props.player.diamond,
     icon: '',
   },
 ]
@@ -53,11 +53,15 @@ $size: 66px;
     margin: 0 10px;
     display: inline-block;
   }
+  .content {
+    display: grid;
+   
+  }
   .wealth {
     list-style-type: none;
     display: grid;
-     grid-template-columns: repeat(2, 1fr);
-     grid-column-gap: 10px; //  网格列间距
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px; //  网格列间距
   }
 }
 

@@ -1,12 +1,3 @@
-<!--
- * @Author: shuaiqiboy 16139991@qq.com
- * @Date: 2023-06-25 10:39:16
- * @LastEditors: shuaiqiboy 16139991@qq.com
- * @LastEditTime: 2023-06-25 14:01:05
- * @FilePath: /xinmifeng/src/pages/lines/index.vue
- * @Description: 如有疑问请联系开发者 
- * 16139991
--->
 <template>
   <div></div>
 </template>
