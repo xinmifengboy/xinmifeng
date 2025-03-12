@@ -1,0 +1,15 @@
+$basicColor: #edd19e;
+.font14 {
+  font-size: 14px;
+}
+.flex {
+  display: flex; // 盒子布局 - 分布式布局
+}
+
+.justify-between {
+  justify-content: space-between; // 盒子布局 - 水平分布
+}
+
+.align-center {
+  align-items: center; // 盒子布局 - 垂直居中
+}

@@ -49,3 +49,44 @@ textarea {
     height: 0
   }
 }
+.signature-section {
+  margin: 10px 0;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+.clear-btn {
+  display: inline-block;
+  margin: 20px auto 0;
+  color: #fff;
+}
+.checkbox-style, .radio-style {
+  accent-color:rgb(221, 39, 39) !important;
+}
+input[type="checkbox"], input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  vertical-align: -4px;
+  margin-right: 8px;
+}
+
+.flex {
+  display: flex; // 盒子布局 - 分布式布局
+}
+
+.justify-between {
+  justify-content: space-between; // 盒子布局 - 水平分布
+}
+
+.align-center {
+  align-items: center; // 盒子布局 - 垂直居中
+}
+.mt-30 {
+  margin-top: 30px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.text-center {
+  text-align: center;
+}

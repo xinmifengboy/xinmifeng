@@ -1,8 +1,9 @@
 // App.vue
 <template>
   <div class="container">
-    <h4 class="text-center">慧研智投科技有限公司深圳分公司 <br>投资者风险承受能力问卷（适用于自然人投资者）</h4>
-    <div style="font-size: 12px;" v-if="!showResultModal">
+    <h3 class="text-center">慧研智投科技有限公司深圳分公司</h3>
+    <h4 class="text-center" style="margin: 10px 0;"> 投资者风险承受能力问卷（适用于自然人投资者）</h4>
+    <div style="font-size: 14px; color: #222;" v-if="!showResultModal">
      <div>本问卷旨在了解您可承受的风险程度等情况，借此协助您选择合适的产品或服务类别，以符合您的风险承受能力。</div>
 
      <div>风险承受能力评估是本公司向投资者履行适当性职责的一个环节，其目的是使本公司所提供的产品或服务与您的风险承受能力等级相匹配。</div>
@@ -21,19 +22,20 @@
           <div class="modal-content">
             
             <h2 class="text-center">您的风险测评结果</h2>
-            <p class="risk-level text-center">{{ riskProfile.level }}</p>
-            <div>测评时间: {{dataTime }}</div>
+            <p class="risk-level text-center">{{ riskProfile.description }}</p>
+            <div class="text-center">测评时间: {{dataTime }}</div>
             <!-- <div class="risk-level">{{ riskProfile.level }}</div> -->
-            <div >尊敬的投资者(姓名/名称:张三</div>
-            <div >身份证号:422423198102162112)</div>
+            <div >尊敬的投资者(姓名/名称:{{ userInfo.name }}</div>
+            <div >身份证号:{{ userInfo.idCard }})</div>
 
            
             根据您填写的《投资者风险承受能力问卷》，本公司对您的风险承受能力进行了综合评估，现得到评估结果如下:您的风险承受能力为积极型(根据公司风险承受能力等级划分填写，例如:保守型 谨慎型 稳健型 积极型 激进型)
-本公司在此郑重提醒，本公司向您销售的产品或提供的服务将以您的风险承受能力等级和投资品种、期眼为基础，若您提供的信息发生任何重大变化，您都应当及时书面通知本公司本公司建议您审慎评判自身风险承受能力，结合自身投资行为，认真填写您的投资品种、期限，做出审慎的投资判断
-如您在审慎考虑后同意本公司的评估结果，请认真阅读下列内容，并签字以示同意。
-机构名称:深圳市启富证券投资顾问有限公司
-签署日期:2025-03-11
-恭喜您!完成了投资者风险测评，我司将为您制作产品合同 
+            本公司在此郑重提醒，本公司向您销售的产品或提供的服务将以您的风险承受能力等级和投资品种、期眼为基础，若您提供的信息发生任何重大变化，您都应当及时书面通知本公司本公司建议您审慎评判自身风险承受能力，结合自身投资行为，认真填写您的投资品种、期限，做出审慎的投资判断
+            如您在审慎考虑后同意本公司的评估结果，请认真阅读下列内容，并签字以示同意。
+            机构名称:深圳市启富证券投资顾问有限公司
+            <br>
+            签署日期: {{ dataTime }}
+            <div style="color: red;">恭喜您!完成了投资者风险测评，我司将为您制作产品合同 </div>
             <!-- <h3>适合您的产品类型：</h3>
             <ul>
               <li v-for="(product, index) in riskProfile.suggestedProducts" :key="index">
@@ -53,12 +55,12 @@
         <span class="score-range">(总分范围 0 - 100)</span>
       </div> -->
 
-      <div v-for="(question, qIndex) in questions" :key="qIndex">
+      <div v-for="(question, qIndex) in questions" :key="qIndex" class="mt-30 question">
         <h3>{{ question.text }}</h3>
-        <div v-for="(option, oIndex) in question.options" :key="oIndex">
+        <div v-for="(option, oIndex) in question.options" :key="oIndex" style="margin:10px 0">
 
          <!-- 多选使用 checkbox -->
-         <template v-if="question.isMultiple">
+         <template v-if="question.isMultiple" >
           <input
             type="checkbox"
             :id="`q${qIndex}_${oIndex}`"
@@ -99,20 +101,26 @@
       
   
     
+     <div v-if="!showResultModal">
+        <h3 class="text-center">电子签名</h3>
       <div class="signature-section">
-        <h3>电子签名</h3>
+
         <SignatureCanvas 
           ref="signaturePad"
           :width="400" 
           :height="200"
           @update:signature="handleSignatureUpdate"
         />
-        <button type="button" class="clear-btn" @click="clearSignature" :disabled="showResultModal">重新签名</button>
       </div>
       <div class="text-center">
-        <button type="submit" class="submit-btn" :disabled="showResultModal">提交问卷</button>
+          <van-button type="default"  @click="clearSignature">重新签名</van-button>
+        </div>
 
+      <div>本人已经了解并愿意遵守国家有关证券市场管理的法律、法规、规章及相关业务规则，本人在此郑重承诺以上填写的内容真实、准确、完整。若本人提供的信息发生任何重大变化，本人将及时书面通知贵公司。</div>
+      <div class="text-center">
+        <button type="submit" style="background-color: #dd2727;" class="submit-btn" :disabled="showResultModal">提交问卷</button>
       </div>
+     </div>
 
     </form>
   </div>
@@ -121,9 +129,15 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import SignatureCanvas from '@/components/SignatureCanvas.vue'
-
+import { useRouter } from 'vue-router';
+import { showFailToast, showSuccessToast } from 'vant';
+import { evaluationsubmit } from '../../api'
 const dataTime = new Date().toLocaleDateString()
-
+const userInfo:any = JSON.parse(localStorage.getItem('userInfo'))
+const router = useRouter()
+if(!userInfo) {
+  router.push('/')
+}
 interface Question {
   text: string
   isMultiple?: boolean // 新增多选标识
@@ -262,16 +276,14 @@ const questions = ref<Question[]>([
 ]
 
 );
-// 初始化答案数组为一个固定长度的数组
-// const answers = reactive<string[]>(Array(questions.value.length).fill(''))
-// const answers = reactive<string[][]>(questions.value.map(() => []))
+
 const handleRadioChange = (qIndex: number, value: string) => {
   answers[qIndex] = [value] // 单选用数组存储单个值
   calculateScore()
 }
 const totalScore = ref(0)
 const riskProfile = reactive({
-  level: '',
+  level: null,
   description: '',
   suggestedProducts: [] as string[]
 })
@@ -282,36 +294,36 @@ const RISK_PROFILES = [
   { 
     min: 12, 
     max: 24, 
-    level: "保守型(C1)", 
-    desc: "建议投资货币市场工具等低风险产品",
+    level: 1, 
+    desc: "保守型(C1)",
     suggestedProducts: ["货币基金", "国债"]
   },
   {
     min: 25,
     max: 35,
-    level: "稳健型(C2)",
-    desc: "建议配置固定收益类产品组合",
+    level: 2,
+    desc: "谨慎型(C2)",
     suggestedProducts: ["债券基金", "同业存单指数基金"]
   },
   {
     min: 36,
     max: 44,
-    level: "平衡型(C3)",
-    desc: "适合混合资产配置组合",
+    level: 3,
+    desc: "稳健型(C3)",
     suggestedProducts: ["固收+", "FOF产品"]
   },
   {
     min: 45,
     max: 53,
-    level: "进取型(C4)",
-    desc: "适合权益类投资组合",
+    level: 4,
+    desc: "积极型(C4)",
     suggestedProducts: ["股票基金", "量化策略产品"]
   },
   {
     min: 54,
     max: 65, // 根据新增问题调整上限
-    level: "激进型(C5)",
-    desc: "适合高风险另类投资",
+    level: 5,
+    desc: "激进型(C5)",
     suggestedProducts: ["私募股权", "CTA基金","加密货币ETF"]
   }
 ]
@@ -361,10 +373,6 @@ const calculateScore = () => {
   }, 0)
 }
 
-// 检查是否所有问题已回答
-// const allAnswered = computed(() => {
-//   return answers.length === questions.value.length && !answers.includes(undefined)
-// })
 
 // 正确的答案数据结构初始化
 const answers = reactive<string[][]>(
@@ -423,7 +431,7 @@ interface FormResult {
   questionnaire: QuestionnaireItem[],
   signature: string,
   totalScore: number,
-  riskProfile: typeof riskProfile
+  level: Number
 }
 // 提交处理
 const submitForm = () => {
@@ -431,31 +439,40 @@ const submitForm = () => {
    calculateScore()
 
   if (!allAnswered.value) {
-    alert('请完成所有题目')
+    showFailToast('请完成所有题目')
     return
   }
   
   if (signature.value.isEmpty) {
-    alert('请提供电子签名')
+    showFailToast('请提供电子签名')
     return
   }
+  checkRiskProfile()
     // 生成符合要求的问卷数据
     const formResult: FormResult = {
       questionnaire: questions.value.map((q, idx) => ({
         key: q.text,
         value: q.isMultiple 
-          ? answers[idx].join(", ") // 多选用逗号分隔
+          ? answers[idx].join(",") // 多选用逗号分隔
           : answers[idx][0] || ""    // 单选取第一个值
       })),
       signature: signature.value.dataUrl,
       totalScore: totalScore.value,
-      riskProfile,
-      // riskProfile: { ...riskProfile },
+      level: riskProfile.level,
     }
 
-    checkRiskProfile()
-    showResultModal.value = true
-    window.scrollTo(0, 0)
+    evaluationsubmit(formResult).then(res => {
+      console.log(res)
+      const {code, data, msg} = JSON.parse(res)
+      if(code == 0) {
+        showResultModal.value = true
+        window.scrollTo(0, 0)
+      } else {
+        showFailToast(msg)
+
+      }
+    })
+    
     
     console.log('提交数据:', formResult)
   }
@@ -474,18 +491,15 @@ const submitForm = () => {
   margin-bottom: 30px;
   padding: 15px;
   border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .option {
   margin: 10px 0;
 }
 
-.signature-section {
-  margin: 40px 0;
-  border-top: 2px solid #ccc;
-  padding-top: 20px;
-  text-align: center;
-}
+
 
 .submit-btn {
   background-color: #42b983;
@@ -569,93 +583,13 @@ const submitForm = () => {
   color: #64748b;
   font-size: 0.9em;
 }
-
-.checkbox-style,
-.radio-style {
-  margin-right: 8px;
-  accent-color: #3b82f6;
-}
-.clear-btn {
-  display: inline-block;
-  margin: 20px auto 0;
-  color: #fff;
-}
-input[type="checkbox"], input[type="radio"] {
-  width: 16px;
-  height: 16px;
-  border: 1px solid #ccc;
-}
-
 </style>
 <style>
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
-  /* min-width: 320px; */
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.card {
-  padding: 2em;
-}
-.text-center {
-  text-align: center;
-}
-/* #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
+ .mt10 {
+  margin-top: 10px;
+ }
 
 @media (prefers-color-scheme: light) {
   :root {

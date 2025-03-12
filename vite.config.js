@@ -2,9 +2,18 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import pages from 'vite-plugin-pages';
 import path from "path"
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { VantResolver } from '@vant/auto-import-resolver';
 export default defineConfig({
   plugins: [
     vue(),
+    AutoImport({
+      resolvers: [VantResolver()],
+    }),
+    Components({
+      resolvers: [VantResolver()],
+    }),
     pages({
       dirs:'src/pages',
       exclude: ['**/components/*.vue']
@@ -14,7 +23,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @import "@/global/css.scss";`,
+        @import "@/global/css.css";`,
         // javascriptEnabled: true
       }
     }

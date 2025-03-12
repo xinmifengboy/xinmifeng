@@ -1,0 +1,16 @@
+{
+  "id": "4854808",
+  "name": "普通又平凡的通用库",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "各类通用图标",
+  "glyphs": [
+    {
+      "icon_id": "37870307",
+      "name": "微信支付",
+      "font_class": "weixinzhifu",
+      "unicode": "eb7d",
+      "unicode_decimal": 60285
+    }
+  ]
+}

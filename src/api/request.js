@@ -1,4 +1,9 @@
+// const BaseUrl = import.meta.env.VITE_API_URL
+// const BaseUrl = 'http://api.qfzqscrm'
+const BaseUrl = 'https://api.scrm.fngyzb.com'
+
 export const request = (url, method, data, header) => {
+  url = BaseUrl + url
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
 
@@ -18,7 +23,11 @@ export const request = (url, method, data, header) => {
       url = buildUrlWithParams(url, data)
     }
     xhr.open(method.toUpperCase(), url, true)
-
+    //  如果有token， 添加到请求头
+    const token = localStorage.getItem('token')
+    if(token) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`)
+    }
     //  发起请求
     if (method == 'post') {
       xhr.setRequestHeader('Content-Type', 'application/json')

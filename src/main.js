@@ -5,6 +5,7 @@ import router from './router'
 import './assets/iconfont/iconfont.css'
 import * as THREE from 'three'
 import * as Utils from '@/assets/js/utils.ts'
+import 'vant/lib/index.css';
 
 const app = createApp(App)
 app.config.globalProperties.$three = THREE
